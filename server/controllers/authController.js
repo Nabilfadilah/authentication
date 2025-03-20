@@ -4,7 +4,7 @@ const db = require('../models');
 const User = db.user; // <--- akses dari index.js, bukan langsung dari user.model.js
 
 const register = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, role, password } = req.body;
   
     try {
       // Cek apakah email sudah terdaftar
@@ -20,6 +20,7 @@ const register = async (req, res) => {
       const newUser = await User.create({
         name,
         email,
+        role: role || 'user', // kalau tidak dikirim, default 'user'
         password: hashedPassword
       });
   
@@ -39,7 +40,8 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: 'Password salah' });
 
-    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // menambah token setiap user dan membawa info
+    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ message: 'Login berhasil', token, user });
   } catch (error) {
     res.status(500).json({ message: 'Gagal login', error });
