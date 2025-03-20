@@ -33,7 +33,7 @@ router.get("/users", verifyToken, isAdmin, async (req, res) => {
 // Jika user biasa, hanya bisa update ID-nya sendiri
 // Jika admin, bisa update siapa saja
 router.put("/users/:id", verifyToken, async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, oldPassword } = req.body;
   const id = req.params.id;
 
   try {
@@ -48,7 +48,14 @@ router.put("/users/:id", verifyToken, async (req, res) => {
 
     // Hash password jika ada
     if (password) {
-      // const bcrypt = require("bcrypt");
+
+      // Jika password ingin diganti oleh user biasa → wajib masukkan oldPassword
+      if (req.user.role !== "admin") {
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) return res.status(400).json({ message: "Password lama salah" });
+      }
+
+      // Hash password baru
       user.password = await bcrypt.hash(password, 10);
     }
 
