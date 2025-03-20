@@ -1,0 +1,9 @@
+// membuat hak akses admin dan user biasa
+const isAdmin = (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({message: "Akses hanya untuk admin"});
+  }
+  next();
+};
+
+module.exports = isAdmin;
