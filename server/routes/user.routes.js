@@ -91,5 +91,29 @@ router.delete("/users/:id", verifyToken, async (req, res) => {
   }
 });
 
+// Khusus reset password user oleh admin
+// digunakan ketika user lupa password
+router.put("/users/:id/reset-password", verifyToken, async (req, res) => {
+  const { newPassword } = req.body;
+  const id = req.params.id;
+
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ message: "Hanya admin yang bisa mereset password" });
+  }
+
+  try {
+    const user = await db.user.findByPk(id);
+    if (!user) return res.status(404).json({ message: "User tidak ditemukan" });
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    res.json({ message: "Password user berhasil di-reset oleh admin" });
+  } catch (error) {
+    res.status(500).json({ message: "Gagal reset password", error });
+  }
+});
+
+
 
 module.exports = router;
