@@ -114,6 +114,4 @@ router.put("/users/:id/reset-password", verifyToken, async (req, res) => {
   }
 });
 
-
-
 module.exports = router;
