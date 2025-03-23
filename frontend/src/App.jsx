@@ -5,6 +5,8 @@ import Dashboard from "./pages/Dashboard";
 
 // impor komponen ProtectedRoute untuk membatasi akses ke halaman tertentu
 import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./pages/Profile";
+import UserList from "./pages/admin/UserList";
 
 function App() {
   return (
@@ -20,6 +22,23 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+              <UserList />
             </ProtectedRoute>
           }
         />
