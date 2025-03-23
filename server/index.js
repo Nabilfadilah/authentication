@@ -7,7 +7,12 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/user.routes');
 const biodataRoutes = require("./routes/biodata.routes");
 
-app.use(cors());
+// cors untuk menghubungkan ke frontend
+app.use(cors({
+  origin: 'http://localhost:5173', // BUKAN '*', harus spesifik
+  credentials: true
+}));
+
 app.use(express.json());
 
 const db = require("./models");
