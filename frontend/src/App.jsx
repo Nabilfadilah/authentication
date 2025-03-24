@@ -7,6 +7,8 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Profile from "./pages/Profile";
 import UserList from "./pages/admin/UserList";
+import EditUser from "./pages/admin/EditUser";
+import ResetPasswordForm from "./pages/admin/ResetPassword";
 
 function App() {
   return (
@@ -39,6 +41,24 @@ function App() {
           element={
             <ProtectedRoute>
               <UserList />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/users/:id"
+          element={
+            <ProtectedRoute>
+              <EditUser />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/reset-password/:id"
+          element={
+            <ProtectedRoute>
+              <ResetPasswordForm />
             </ProtectedRoute>
           }
         />
