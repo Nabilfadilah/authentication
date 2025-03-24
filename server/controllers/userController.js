@@ -116,4 +116,23 @@ const resetUserPassword = async (req, res) => {
     }
 }
 
-module.exports = { getUserProfile, getAllUsers,updateUser, deleteUser, resetUserPassword };
+// fungsi untuk mengambil data user berdasarkan ID
+const getUserById = async (req, res) => {
+  try {
+    // mengambil user dari database berdasarkan ID yang dikirim di parameter URL
+    const user = await db.user.findByPk(req.params.id, {
+      attributes: { exclude: ["password"] }, // menghapus password dari respons agar tidak dikirim ke client
+    });
+
+    // jika user tidak ditemukan, kirim respons 404 (Not Found)
+    if (!user) return res.status(404).json({ message: "User tidak ditemukan" });
+
+    // jika user ditemukan, kirim data user dengan status 200 (OK)
+    res.status(200).json(user);
+  } catch (err) {
+    // jika terjadi error saat mengambil data, kirim respons 500 (Internal Server Error)
+    res.status(500).json({ message: "Gagal mengambil data user" });
+  }
+};
+
+module.exports = { getUserProfile, getAllUsers,updateUser, deleteUser, resetUserPassword, getUserById };
