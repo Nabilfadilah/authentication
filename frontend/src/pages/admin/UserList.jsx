@@ -105,6 +105,11 @@ const UserList = () => {
               >
                 Delete
               </button>
+
+              {/* Tombol Reset Password */}
+              <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-sm">
+                <Link to={`/admin/reset-password/${u.id}`}>Reset</Link>
+              </button>
             </div>
           </li>
         ))}
