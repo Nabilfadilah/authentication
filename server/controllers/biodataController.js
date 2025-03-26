@@ -95,8 +95,9 @@ const getBiodataById = async (req, res) => {
     const formattedItem = {
       id: item.id,
       name: item.name,
-      address: item.address,
+      email: item.email,
       phone: item.phone,
+      address: item.address,
       photo: item.photo ? `data:image/jpeg;base64,${item.photo.toString("base64")}` : null,
       createdAt: item.createdAt,
       updatedAt: item.updatedAt,
