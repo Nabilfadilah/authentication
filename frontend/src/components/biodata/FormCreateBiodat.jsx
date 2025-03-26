@@ -2,11 +2,14 @@
 import {useState} from "react";
 import axios from "../../utils/axiosInstance";
 import {useAuth} from "../../context/AuthContext";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const FormCreateBiodata = () => {
   const {user, token} = useAuth();
   const navigate = useNavigate();
+  const [photoPreview, setPhotoPreview] = useState(null); // State untuk preview foto
+
+  // state untuk menyimpan data form
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -44,11 +47,14 @@ const FormCreateBiodata = () => {
 
       // mengirim request POST ke backend dengan data yang telah dikumpulkan
 
-      const data = new FormData(); // membuat objek FormData untuk mengirim data
+      const data = new FormData(); // membuat objek FormData untuk mengirim data(berupa file)
 
-      // Tambahkan semua field kecuali photo ke FormData
+      // mengonversi objek formData menjadi array pasangan [key, value] lalu melakukan iterasi pada setiap pasangan.
       Object.entries(formData).forEach(([key, value]) => {
-        if (key !== "photo") data.append(key, value);
+        // mengecualikan key "photo"
+        if (key !== "photo")
+          // menambah setiap key-value ke dalam objek FormData
+          data.append(key, value);
       });
 
       // Validasi dan tambahkan photo jika valid
@@ -76,51 +82,140 @@ const FormCreateBiodata = () => {
     }
   };
 
+  // fungsi handleChange digunakan untuk menangani perubahan nilai pada input form
+  // fungsi ini akan memperbarui state formData setiap kali pengguna mengetik atau memilih file
+  const handleChange = (e) => {
+    const {name, value, type, files} = e.target; // mendapatkan properti dari event target (input yang berubah)
+
+    // jika input berupa file (misalnya upload foto)
+    if (type === "file") {
+      const file = files[0]; // ambil file pertama yang diunggah
+      if (file) {
+        setFormData({...formData, photo: file}); // simpan file foto
+        setPhotoPreview(URL.createObjectURL(file)); // menampilkan preview foto yang baru diunggah
+      }
+    } else {
+      setFormData({...formData, [name]: value});
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Form Biodata</h2>
-      {/* Input untuk Nama */}
-      <input
-        type="text"
-        placeholder="Nama"
-        // evenHandler  yang dijalankan setiap kali nilai input beruba
-        // setFormData() digunakan untuk memperbarui state formData
-        // {...formData} menyebarkan (spread) semua properti yang ada dalam formData agar tidak hilang saat diperbarui.
-        // e adalah event yang terjadi pada elemen input.
-        // e.target mengacu pada elemen input itu sendiri.
-        // e.target.value mengambil nilai terbaru yang diketik oleh pengguna.
-        onChange={(e) => setFormData({...formData, name: e.target.value})}
-        required
-      />
-      {/* Input untuk Email */}
-      <input
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setFormData({...formData, email: e.target.value})}
-        required
-      />
-      {/* Input untuk Nomor Telepon */}
-      <input
-        type="text"
-        placeholder="Telepon"
-        onChange={(e) => setFormData({...formData, phone: e.target.value})}
-        required
-      />
-      {/* Input untuk Alamat */}
-      <input
-        type="text"
-        placeholder="Alamat"
-        onChange={(e) => setFormData({...formData, address: e.target.value})}
-        required
-      />
-      {/* Input untuk Upload Foto */}
-      <input
-        type="file"
-        onChange={(e) => setFormData({...formData, photo: e.target.files[0]})}
-      />
-      <button type="submit">Simpan</button>
-    </form>
+    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold">Form Biodata</h2>
+        <Link
+          to={"/biodata"}
+          className="px-4 py-1 bg-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-400"
+        >
+          Back
+        </Link>
+      </div>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          name="name"
+          placeholder="Nama"
+          value={formData.name} // nilai input dikendalikan oleh state formData
+          onChange={handleChange} // menjalankan fungsi handleChange saat user mengetik, untuk memperbarui formData
+          className="w-full p-2 border rounded"
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          className="w-full p-2 border rounded"
+          required
+        />
+        <input
+          type="text"
+          name="phone"
+          placeholder="Telepon"
+          value={formData.phone}
+          onChange={handleChange}
+          className="w-full p-2 border rounded"
+          required
+        />
+        <input
+          type="text"
+          name="address"
+          placeholder="Alamat"
+          value={formData.address}
+          onChange={handleChange}
+          className="w-full p-2 border rounded"
+          required
+        />
+        {/* Upload & Preview Foto */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold text-sm mb-2">
+            Upload Foto:
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleChange}
+            className="w-full p-2 border rounded-md"
+          />
+
+          {/* menampilkan preview foto jika tersedia */}
+          {photoPreview && (
+            <div className="mt-3 flex justify-center">
+              <img
+                src={photoPreview}
+                alt="Preview"
+                className="w-32 h-32 object-cover rounded-md shadow-md"
+              />
+            </div>
+          )}
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white text-sm font-bold p-2 rounded hover:bg-blue-700"
+        >
+          Simpan
+        </button>
+      </form>
+    </div>
   );
 };
 
 export default FormCreateBiodata;
+
+// kalau tidak ada menggunakan form input upload photo/image
+// const handleSubmit = async (e) => {
+//   e.preventDefault(); // Mencegah reload halaman
+
+//   try {
+//     // Membuat objek untuk data biodata (tanpa FormData karena tidak ada file)
+//     const data = {
+//       name: formData.name,
+//       email: formData.email,
+//       phone: formData.phone,
+//       address: formData.address,
+//     };
+
+//     // Mengirim request POST ke backend untuk membuat biodata baru
+//     const response = await axios.post("/biodata/create", data, {
+//       headers: {
+//         Authorization: `Bearer ${token}`, // Menyertakan token autentikasi
+//         "Content-Type": "application/json", // Mengirim data dalam format JSON
+//       },
+//     });
+
+//     console.log("Response dari backend:", response.data); // Debugging
+//     alert("Biodata berhasil dibuat!"); // Notifikasi sukses
+
+//     navigate("/biodata"); // Redirect ke halaman biodata setelah berhasil
+//   } catch (err) {
+//     console.error("Error saat mengirim data:", err);
+//     alert("Terjadi kesalahan saat mengirim data. Coba lagi.");
+//   }
+// };
+
+// // Fungsi untuk menangani perubahan input form
+// const handleChange = (e) => {
+//   const { name, value } = e.target;
+//   setFormData({ ...formData, [name]: value });
+// };
