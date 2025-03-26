@@ -35,6 +35,7 @@ const BiodataView = () => {
           <p>Nama: {biodata.name}</p>
           <p>Email: {biodata.email}</p>
           <p>Alamat: {biodata.address}</p>
+          <p>No Telepon: {biodata.phone}</p>
           {/* tombol untuk mengedit biodata dengan mengarahkan ke halaman edit */}
           <Link to={`/biodata/edit/${biodata.id}`}>Edit Biodata</Link>
         </div>
