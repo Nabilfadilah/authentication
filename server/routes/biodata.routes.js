@@ -8,22 +8,22 @@ const {
   getAllBiodata,
   getBiodataById,
   updateBiodata,
-  deleteBiodata
+  deleteBiodata,
 } = require("../controllers/biodataController");
 
-// route untuk menambah biodata
-router.post("/", verifyToken, upload.single("photo"), createBiodata);
+// route untuk menambah biodata (user hanya bisa membuat 1 biodata)
+router.post("/biodata/create", verifyToken, upload.single("photo"), createBiodata);
 
-// route untuk mendapatkan semua biodata
-router.get("/", verifyToken, getAllBiodata);
+// route untuk mendapatkan semua biodata (admin bisa melihat semua)
+router.get("/biodata", verifyToken, getAllBiodata);
 
-// route untuk melihat detail biodata by id
-router.get("/:id", verifyToken, getBiodataById);
+// route untuk mendapatkan biodata berdasarkan ID
+router.get("/biodata/:id", verifyToken, getBiodataById);
 
-// route untuk memperbarui data biodata
-router.put("/:id", verifyToken, upload.single("photo"), updateBiodata);
+// route untuk memperbarui biodata
+router.put("/biodata/edit/:id", verifyToken, upload.single("photo"), updateBiodata);
 
 // route untuk menghapus biodata
-router.delete("/:id", verifyToken, deleteBiodata);
+router.delete("/biodata/:id", verifyToken, deleteBiodata);
 
 module.exports = router;
