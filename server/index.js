@@ -14,6 +14,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); 
 
 const db = require("./models");
 
@@ -32,7 +33,7 @@ app.get("/", (req, res) => {
 });
 app.use('/api', authRoutes); // login dan register
 app.use('/api', userRoutes); // profile
-app.use("/api/biodata", biodataRoutes);
+app.use("/api", biodataRoutes);
 
 const PORT = process.env.PORT || 3200;
 app.listen(PORT, () => {
