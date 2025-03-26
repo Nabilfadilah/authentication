@@ -3,6 +3,7 @@ import {useEffect, useState} from "react"; // useEffect untuk menjalankan efek s
 import {useAuth} from "../../context/AuthContext"; // mengambil data user dari context autentikasi
 import axiosInstance from "../../utils/axiosInstance"; // import instance Axios untuk melakukan request API
 import {Link, useNavigate} from "react-router-dom";
+import {FaEdit, FaTrash, FaRedo} from "react-icons/fa";
 
 const UserList = () => {
   // mengambil data user yang sedang login dan token autentikasi dari context
@@ -70,50 +71,80 @@ const UserList = () => {
     }
   };
   return (
-    <div className="p-4">
+    <div className="p-6 bg-white shadow-md rounded-lg">
       {/* judul halaman */}
-      <h2 className="text-xl font-bold mb-4">Daftar User</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold">Daftar User Register</h2>
+        <Link
+          to={"/dashboard"}
+          className="px-4 py-1 bg-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-400"
+        >
+          Back
+        </Link>
+      </div>
 
       {/* menampilkan daftar user dalam bentuk list */}
-      <ul className="space-y-2">
-        {userAll.map((u) => (
-          <li
-            key={u.id}
-            className="border p-3 rounded flex justify-between items-center"
-          >
-            {/* menampilkan nama, email, dan role */}
-            <div>
-              <p className="font-semibold">{u.name}</p>
-              <p className="text-sm text-gray-600">{u.email}</p>
-              <p className="text-sm text-gray-500 italic">Role: {u.role}</p>
-            </div>
-
-            {/* Tombol aksi untuk edit, delete, dan reset password */}
-            <div className="flex gap-2">
-              {/* Tombol Edit */}
-              <button
-                onClick={() => handleEdit(u.id)}
-                className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm"
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-300 rounded-lg">
+          <thead className="bg-gray-200 text-gray-700">
+            <tr>
+              <th className="py-2 px-4 border text-start">No.</th>
+              <th className="py-2 px-4 border">Nama</th>
+              <th className="py-2 px-4 border">Email</th>
+              <th className="py-2 px-4 border">Role</th>
+              <th className="py-2 px-4 border">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {userAll.map((user, index) => (
+              <tr
+                key={user.id}
+                className="text-center border-b hover:bg-gray-100"
               >
-                Edit
-              </button>
+                <td className="py-2 px-4 border text-start">{index + 1}.</td>
 
-              {/* Tombol Delete */}
-              <button
-                onClick={() => handleDelete(u.id)}
-                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm"
-              >
-                Delete
-              </button>
+                {/* menampilkan nama, email, dan role */}
+                <td className="py-2 px-4 border font-semibold text-start">
+                  {user.name}
+                </td>
+                <td className="py-2 px-4 border text-gray-600 text-start">
+                  {user.email}
+                </td>
+                <td className="py-2 px-4 border text-gray-500 italic text-start">
+                  {user.role}
+                </td>
 
-              {/* Tombol Reset Password */}
-              <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-sm">
-                <Link to={`/admin/reset-password/${u.id}`}>Reset</Link>
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+                {/* tombol Aksi */}
+                <td className="py-2 px-4 border flex justify-center gap-2">
+                  {/* tombol edit */}
+                  <button
+                    onClick={() => handleEdit(user.id)}
+                    className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm flex items-center gap-1"
+                  >
+                    <FaEdit /> Edit
+                  </button>
+
+                  {/* tombol delete */}
+                  <button
+                    onClick={() => handleDelete(user.id)}
+                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm flex items-center gap-1"
+                  >
+                    <FaTrash /> Delete
+                  </button>
+
+                  {/* link reset password */}
+                  <Link
+                    to={`/admin/reset-password/${user.id}`}
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-sm flex items-center gap-1"
+                  >
+                    <FaRedo /> Reset
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
