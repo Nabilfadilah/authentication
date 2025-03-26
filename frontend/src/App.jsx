@@ -9,6 +9,16 @@ import Profile from "./pages/Profile";
 import UserList from "./pages/admin/UserList";
 import EditUser from "./pages/admin/EditUser";
 import ResetPasswordForm from "./pages/admin/ResetPassword";
+import FormEditBiodata from "./components/biodata/FormEditBiodata";
+import FormCreateBiodata from "./components/biodata/FormCreateBiodat";
+import BiodataView from "./components/biodata/BiodataView";
+import AdminBiodataList from "./components/biodata/AdminBiodataList";
+import {useAuth} from "./context/AuthContext";
+
+const BiodataRouter = () => {
+  const {user} = useAuth();
+  return user?.role === "admin" ? <AdminBiodataList /> : <BiodataView />;
+};
 
 function App() {
   return (
@@ -59,6 +69,32 @@ function App() {
           element={
             <ProtectedRoute>
               <ResetPasswordForm />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* biodata router */}
+        <Route
+          path="/biodata"
+          element={
+            <ProtectedRoute>
+              <BiodataRouter />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/biodata/create"
+          element={
+            <ProtectedRoute>
+              <FormCreateBiodata />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/biodata/edit/:id"
+          element={
+            <ProtectedRoute>
+              <FormEditBiodata />
             </ProtectedRoute>
           }
         />
