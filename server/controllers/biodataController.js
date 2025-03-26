@@ -3,9 +3,18 @@ const db = require("../models"); // Mengimpor model database
 // Create biodata
 const createBiodata = async (req, res) => {
   try {
-    // Mengambil data dari request body
+    console.log("File yang diterima:", req.file);
+    console.log("Data yang diterima:", req.body);
+
+    // Cek apakah user sudah memiliki biodata
+    const existing = await db.biodata.findOne({ where: { userId: req.user.id } });
+    if (existing) {
+      return res.status(400).json({ message: "Anda sudah memiliki biodata" });
+    }
+
+    // Ambil data dari request body
     const { name, email, phone, address } = req.body;
-    const photo = req.file ? req.file.buffer : null; // Jika ada file, simpan dalam buffer
+    const photo = req.file ? req.file.buffer : null;
 
     // Membuat biodata baru di database
     const newData = await db.biodata.create({
@@ -27,21 +36,45 @@ const createBiodata = async (req, res) => {
 const getAllBiodata = async (req, res) => {
   try {
     // Jika user adalah admin, ambil semua data. Jika bukan, hanya ambil data miliknya.
-    const whereCondition = req.user.role === "admin" ? {} : { userId: req.user.id };
-    const data = await db.biodata.findAll({ where: whereCondition });
+    if (req.user.role === "admin") {
+      const data = await db.biodata.findAll();
 
-    // Format data sebelum dikirim ke client
-    const formattedData = data.map((item) => ({
-      id: item.id,
-      name: item.name,
-      address: item.address,
-      phone: item.phone,
-      photo: item.photo ? `data:image/jpeg;base64,${item.photo.toString("base64")}` : null,
-      createdAt: item.createdAt,
-      updatedAt: item.updatedAt,
-    }));
+      // Format data sebelum dikirim ke client
+      const formattedData = data.map((item) => ({
+        id: item.id,
+        name: item.name,
+        email: item.email,
+        address: item.address,
+        phone: item.phone,
+        photo: item.photo
+          ? `data:image/jpeg;base64,${item.photo.toString("base64")}`
+          : null,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
+      }));
 
-    res.json(formattedData);
+      return res.json(formattedData);
+    } else {
+      // User biasa hanya lihat biodata miliknya
+      const item = await db.biodata.findOne({ where: { userId: req.user.id } });
+      if (!item) return res.json(null); // belum ada biodata
+
+      // Format data sebelum dikirim ke client
+      const formattedItem = {
+        id: item.id,
+        name: item.name,
+        email: item.email,
+        address: item.address,
+        phone: item.phone,
+        photo: item.photo
+          ? `data:image/jpeg;base64,${item.photo.toString("base64")}`
+          : null,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
+      };
+
+      return res.json(formattedItem);
+    }
   } catch (err) {
     res.status(500).json({ message: "Gagal mengambil data", error: err });
   }
