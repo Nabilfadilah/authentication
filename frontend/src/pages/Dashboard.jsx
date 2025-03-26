@@ -32,6 +32,15 @@ const Dashboard = () => {
           Biodata
         </Link>
 
+        {user.role === "admin" && (
+          <Link
+            to="/users"
+            className="bg-green-600 text-white text-sm px-4 py-1 rounded-lg hover:bg-green-700 transition duration-200"
+          >
+            Users
+          </Link>
+        )}
+
         <button
           onClick={handleLogout}
           className="bg-red-600 text-white text-sm px-4 py-1 rounded-lg hover:bg-red-700 transition duration-200"
