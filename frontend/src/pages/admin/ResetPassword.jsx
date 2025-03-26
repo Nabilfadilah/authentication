@@ -1,6 +1,6 @@
 // src/pages/admin/ResetPasswordForm.jsx
 import {useState} from "react";
-import {useParams, useNavigate} from "react-router-dom";
+import {useParams, useNavigate, Link} from "react-router-dom";
 import axios from "../../utils/axiosInstance";
 import {useAuth} from "../../context/AuthContext";
 
@@ -44,7 +44,15 @@ const ResetPasswordForm = () => {
 
   return (
     <div className="max-w-md mx-auto mt-10 border p-6 rounded shadow">
-      <h2 className="text-xl font-bold mb-4">Reset Password User</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold">Reset Password User</h2>
+        <Link
+          to={"/users"}
+          className="px-4 py-1 bg-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-400"
+        >
+          Back
+        </Link>
+      </div>
 
       {/* menampilkan pesan sukses atau error jika ada */}
       <p
@@ -80,7 +88,7 @@ const ResetPasswordForm = () => {
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700"
         >
           Reset Password
         </button>

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useParams, useNavigate} from "react-router-dom";
+import {useParams, useNavigate, Link} from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import {useAuth} from "../../context/AuthContext";
 
@@ -80,9 +80,17 @@ const EditUser = () => {
 
   return (
     <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded">
-      <h2 className="text-xl font-semibold mb-4">Edit User</h2>
-      {error && <p className="text-red-600 mb-2">{error}</p>}{" "}
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold">Edit User</h2>
+        <Link
+          to={"/users"}
+          className="px-4 py-1 bg-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-400"
+        >
+          Back
+        </Link>
+      </div>
       {/* tampilkan pesan error jika ada */}
+      {error && <p className="text-red-600 mb-2">{error}</p>}{" "}
       <form onSubmit={handleSubmit} className="space-y-3">
         {/* input untuk Nama */}
         <div>
@@ -127,7 +135,7 @@ const EditUser = () => {
         {/* tombol Simpan Perubahan */}
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700"
         >
           Simpan Perubahan
         </button>
