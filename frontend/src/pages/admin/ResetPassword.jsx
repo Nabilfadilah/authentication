@@ -3,6 +3,10 @@ import {useState} from "react";
 import {useParams, useNavigate, Link} from "react-router-dom";
 import axios from "../../utils/axiosInstance";
 import {useAuth} from "../../context/AuthContext";
+import Typography from "../../components/elements/text/Typography";
+import ButtonAll from "../../components/elements/button/Index";
+import InputForm from "../../components/elements/input/Index";
+import {BiArrowBack} from "react-icons/bi";
 
 const ResetPasswordForm = () => {
   const {id} = useParams(); // ambil id user dari parameter URL
@@ -45,13 +49,15 @@ const ResetPasswordForm = () => {
   return (
     <div className="max-w-md mx-auto mt-10 border p-6 rounded shadow">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold">Reset Password User</h2>
-        <Link
-          to={"/users"}
-          className="px-4 py-1 bg-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-400"
-        >
-          Back
-        </Link>
+        <Typography className="text-xl font-semibold">
+          Reset Password User
+        </Typography>
+        <ButtonAll>
+          <Link to={"/users"} className="flex items-center gap-2">
+            <BiArrowBack />
+            Back
+          </Link>
+        </ButtonAll>
       </div>
 
       {/* menampilkan pesan sukses atau error jika ada */}
@@ -65,33 +71,30 @@ const ResetPasswordForm = () => {
 
       <form onSubmit={handleReset}>
         <div className="mb-4">
-          <label className="block mb-1">Password Baru</label>
-          <input
+          <InputForm
+            label="Password Baru"
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            className="border p-2 w-full rounded"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1">Konfirmasi Password Baru</label>
-          <input
+          <InputForm
+            label="Konfirmasi Password Baru"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="border p-2 w-full rounded"
             required
           />
         </div>
 
-        <button
-          type="submit"
-          className="bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Reset Password
-        </button>
+        <div className="text-center">
+          <ButtonAll type="submit" className="bg-blue-600 hover:bg-blue-700">
+            Reset Password
+          </ButtonAll>
+        </div>
       </form>
     </div>
   );
