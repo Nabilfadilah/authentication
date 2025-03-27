@@ -3,6 +3,9 @@ import {useEffect, useState} from "react";
 import axios from "../../utils/axiosInstance";
 import {useAuth} from "../../context/AuthContext";
 import {Link} from "react-router-dom";
+import Typography from "../elements/text/Typography";
+import ButtonAll from "../elements/button/Index";
+import {BiArrowBack} from "react-icons/bi";
 
 const AdminBiodataList = () => {
   // ambil data user dan token dari context authentikasi
@@ -35,13 +38,15 @@ const AdminBiodataList = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold">List Biodata Semua User</h2>
-        <Link
-          to={"/dashboard"}
-          className="px-4 py-1 bg-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-400"
-        >
-          Back
-        </Link>
+        <Typography className="text-xl font-bold">
+          List Biodata Semua User
+        </Typography>
+        <ButtonAll>
+          <Link to={"/dashboard"} className="flex items-center gap-2">
+            <BiArrowBack />
+            Back
+          </Link>
+        </ButtonAll>
       </div>
 
       {/* Tabel Responsif */}
@@ -53,13 +58,13 @@ const AdminBiodataList = () => {
               <th className="py-2 px-4 border">Email</th>
               <th className="py-2 px-4 border">No Telepon</th>
               <th className="py-2 px-4 border">Alamat</th>
-              <th className="py-2 px-4 border">Photo</th>
+              <th className="py-2 px-4 border">Poto</th>
             </tr>
           </thead>
           <tbody>
             {/* Mapping data biodataList ke dalam tabel */}
             {biodataList.map((b) => (
-              <tr key={b.id} className="text-center border-b">
+              <tr key={b.id} className="text-start border-b">
                 <td className="py-2 px-4 border">{b.name}</td>
                 <td className="py-2 px-4 border">{b.email}</td>
                 <td className="py-2 px-4 border">{b.phone}</td>
