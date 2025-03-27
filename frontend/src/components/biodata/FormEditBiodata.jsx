@@ -3,6 +3,11 @@ import {useEffect, useState} from "react";
 import axios from "../../utils/axiosInstance";
 import {useAuth} from "../../context/AuthContext";
 import {useParams, useNavigate, Link} from "react-router-dom";
+import Typography from "../elements/text/Typography";
+import ButtonAll from "../elements/button/Index";
+import InputForm from "../elements/input/Index";
+import {BiArrowBack} from "react-icons/bi";
+import Label from "../elements/input/Label";
 
 const FormEditBiodata = () => {
   // mengambil user & token dari AuthContext
@@ -102,60 +107,58 @@ const FormEditBiodata = () => {
       className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg"
     >
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold">Edit Biodata</h2>
-        <Link
-          to={"/biodata"}
-          className="px-4 py-1 bg-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-400"
-        >
-          Back
-        </Link>
+        <Typography className="text-xl font-bold">Edit Biodata</Typography>
+        <ButtonAll>
+          <Link to={"/biodata"} className="flex items-center gap-2">
+            <BiArrowBack />
+            Back
+          </Link>
+        </ButtonAll>
       </div>
 
       {/* Input untuk Nama */}
-      <input
-        type="text"
+      <InputForm
+        label="Nama"
         name="name"
-        value={formData.name} // nilai input dikendalikan oleh state formData
-        onChange={handleChange} // memanggil handleChange saat pengguna mengetik
+        type="text"
+        value={formData.name}
+        onChange={handleChange}
         required
-        className="w-full p-2 mb-3 border rounded-md"
       />
 
       {/* Input untuk Email */}
-      <input
-        type="email"
+      <InputForm
+        label="Email"
         name="email"
+        type="email"
         value={formData.email}
         onChange={handleChange}
         required
-        className="w-full p-2 mb-3 border rounded-md"
-      />
-
-      {/* Input untuk Alamat */}
-      <input
-        type="text"
-        name="address"
-        value={formData.address}
-        onChange={handleChange}
-        required
-        className="w-full p-2 mb-3 border rounded-md"
       />
 
       {/* Input untuk Nomor Telepon */}
-      <input
-        type="text"
+      <InputForm
+        label="No Telepon"
         name="phone"
+        type="text"
         value={formData.phone}
         onChange={handleChange}
         required
-        className="w-full p-2 mb-3 border rounded-md"
+      />
+
+      {/* Input untuk Alamat */}
+      <InputForm
+        label="Alamat"
+        name="address"
+        type="text"
+        value={formData.address}
+        onChange={handleChange}
+        required
       />
 
       {/* Upload & Preview Foto */}
       <div className="mb-4">
-        <label className="block text-gray-700 font-bold text-sm mb-2">
-          Upload Foto:
-        </label>
+        <Label>Upload Foto:</Label>
         <input
           type="file"
           accept="image/*"
@@ -176,12 +179,9 @@ const FormEditBiodata = () => {
       </div>
 
       {/* Tombol Submit */}
-      <button
-        type="submit"
-        className="w-full bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded-md"
-      >
+      <ButtonAll type="submit" className="w-full bg-blue-500 hover:bg-blue-700">
         Update
-      </button>
+      </ButtonAll>
     </form>
   );
 };
