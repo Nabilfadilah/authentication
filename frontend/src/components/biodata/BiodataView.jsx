@@ -2,6 +2,10 @@ import {useEffect, useState} from "react";
 import axios from "../../utils/axiosInstance";
 import {useAuth} from "../../context/AuthContext";
 import {Link} from "react-router-dom";
+import Typography from "../elements/text/Typography";
+import ButtonAll from "../elements/button/Index";
+import {BiArrowBack} from "react-icons/bi";
+import {FaEdit} from "react-icons/fa";
 
 const BiodataView = () => {
   // ambil data user dan token dari context authentikasi
@@ -28,15 +32,16 @@ const BiodataView = () => {
   }, [user]); // useEffect akan dijalankan ulang setiap kali 'user' berubah
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
+    <div className="max-w-xl mx-auto p-6 bg-white shadow-2xl rounded-lg mt-10">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold">Biodata Saya</h2>
-        <Link
-          to={"/dashboard"}
-          className="px-4 py-1 bg-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-400"
-        >
-          Back
-        </Link>
+        <Typography className="text-xl font-bold">Biodata Saya</Typography>
+
+        <ButtonAll>
+          <Link to={"/dashboard"} className="flex items-center gap-2">
+            <BiArrowBack />
+            Back
+          </Link>
+        </ButtonAll>
       </div>
       {biodata ? ( // jika biodata tersedia, tampilkan informasi biodata
         <div className="flex flex-col items-center">
@@ -47,29 +52,39 @@ const BiodataView = () => {
             alt="Foto Profil"
             className="w-32 h-32 rounded-full object-cover border-2 border-gray-300 mb-4"
           />
-          <p className="text-lg font-semibold">Nama: {biodata.name}</p>
-          <p className="text-gray-600">Email: {biodata.email}</p>
-          <p className="text-gray-600">Alamat: {biodata.address}</p>
-          <p className="text-gray-600">No Telepon: {biodata.phone}</p>
+          <Typography className="text-lg font-semibold">
+            Nama: {biodata.name}
+          </Typography>
+          <Typography className="text-gray-600">
+            Email: {biodata.email}
+          </Typography>
+          <Typography className="text-gray-600">
+            Alamat: {biodata.address}
+          </Typography>
+          <Typography className="text-gray-600 pb-5">
+            No Telepon: {biodata.phone}
+          </Typography>
           {/* tombol untuk mengedit biodata dengan mengarahkan ke halaman edit */}
-          <Link
-            to={`/biodata/edit/${biodata.id}`}
-            className="mt-4 bg-blue-500 text-white text-sm px-4 py-1 rounded hover:bg-blue-600"
-          >
-            Edit Biodata
-          </Link>
+          <ButtonAll className="bg-blue-500 hover:bg-blue-600">
+            <Link
+              to={`/biodata/edit/${biodata.id}`}
+              className="flex items-center gap-2"
+            >
+              <FaEdit />
+              Edit
+            </Link>
+          </ButtonAll>
         </div>
       ) : (
         // jika biodata belum ada, tampilkan pesan dan tombol untuk membuat biodata baru
         <div className="text-center">
-          <p className="text-gray-500">Biodata belum tersedia.</p>
+          <Typography className="text-gray-500">
+            Biodata belum tersedia.
+          </Typography>
           {/* tombol untuk membuat biodata baru */}
-          <Link
-            to="/biodata/create"
-            className="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-          >
-            Buat Biodata
-          </Link>
+          <ButtonAll className="bg-green-500 hover:bg-green-600">
+            <Link to="/biodata/create">Buat Biodata</Link>
+          </ButtonAll>
         </div>
       )}
     </div>
