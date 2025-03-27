@@ -2,6 +2,11 @@ import {useEffect, useState} from "react";
 import {useParams, useNavigate, Link} from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import {useAuth} from "../../context/AuthContext";
+import Typography from "../../components/elements/text/Typography";
+import ButtonAll from "../../components/elements/button/Index";
+import InputForm from "../../components/elements/input/Index";
+import {BiArrowBack} from "react-icons/bi";
+import Label from "../../components/elements/input/Label";
 
 const EditUser = () => {
   const {id} = useParams(); // mengambil ID user dari URL
@@ -81,45 +86,43 @@ const EditUser = () => {
   return (
     <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold">Edit User</h2>
-        <Link
-          to={"/users"}
-          className="px-4 py-1 bg-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-400"
-        >
-          Back
-        </Link>
+        <Typography className="text-xl font-semibold">Edit User</Typography>
+        <ButtonAll>
+          <Link to={"/users"} className="flex items-center gap-2">
+            <BiArrowBack />
+            Back
+          </Link>
+        </ButtonAll>
       </div>
       {/* tampilkan pesan error jika ada */}
       {error && <p className="text-red-600 mb-2">{error}</p>}{" "}
       <form onSubmit={handleSubmit} className="space-y-3">
         {/* input untuk Nama */}
         <div>
-          <label>Nama</label>
-          <input
-            type="text"
+          <InputForm
+            label="Nama"
             name="name"
+            type="text"
             value={formData.name}
             onChange={handleChange}
-            className="border p-2 w-full rounded"
           />
         </div>
 
         {/* input untuk Email */}
         <div>
-          <label>Email</label>
-          <input
-            type="email"
+          <InputForm
+            label="Email"
             name="email"
+            type="text"
             value={formData.email}
             onChange={handleChange}
-            className="border p-2 w-full rounded"
           />
         </div>
 
         {/* Dropdown Role, hanya ditampilkan jika user yang login adalah admin */}
         {user.role === "admin" && (
           <div>
-            <label>Role</label>
+            <Label>Role</Label>
             <select
               name="role"
               value={formData.role}
@@ -132,13 +135,12 @@ const EditUser = () => {
           </div>
         )}
 
-        {/* tombol Simpan Perubahan */}
-        <button
-          type="submit"
-          className="bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Simpan Perubahan
-        </button>
+        <div className="text-center">
+          {/* tombol Simpan Perubahan */}
+          <ButtonAll type="submit" className="bg-blue-600 hover:bg-blue-700">
+            Simpan Perubahan
+          </ButtonAll>
+        </div>
       </form>
     </div>
   );
