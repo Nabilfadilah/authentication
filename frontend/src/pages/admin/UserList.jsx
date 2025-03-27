@@ -4,6 +4,9 @@ import {useAuth} from "../../context/AuthContext"; // mengambil data user dari c
 import axiosInstance from "../../utils/axiosInstance"; // import instance Axios untuk melakukan request API
 import {Link, useNavigate} from "react-router-dom";
 import {FaEdit, FaTrash, FaRedo} from "react-icons/fa";
+import Typography from "../../components/elements/text/Typography";
+import ButtonAll from "../../components/elements/button/Index";
+import {BiArrowBack} from "react-icons/bi";
 
 const UserList = () => {
   // mengambil data user yang sedang login dan token autentikasi dari context
@@ -74,13 +77,15 @@ const UserList = () => {
     <div className="p-6 bg-white shadow-md rounded-lg">
       {/* judul halaman */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold">Daftar User Register</h2>
-        <Link
-          to={"/dashboard"}
-          className="px-4 py-1 bg-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-400"
-        >
-          Back
-        </Link>
+        <Typography className="text-xl font-bold">
+          Daftar User Register
+        </Typography>
+        <ButtonAll>
+          <Link to={"/dashboard"} className="flex items-center gap-2">
+            <BiArrowBack />
+            Back
+          </Link>
+        </ButtonAll>
       </div>
 
       {/* menampilkan daftar user dalam bentuk list */}
@@ -117,28 +122,30 @@ const UserList = () => {
                 {/* tombol Aksi */}
                 <td className="py-2 px-4 border flex justify-center gap-2">
                   {/* tombol edit */}
-                  <button
+                  <ButtonAll
                     onClick={() => handleEdit(user.id)}
-                    className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 text-sm flex items-center gap-1"
+                    className="bg-blue-600  hover:bg-blue-700 flex items-center gap-1"
                   >
                     <FaEdit /> Edit
-                  </button>
+                  </ButtonAll>
 
                   {/* tombol delete */}
-                  <button
+                  <ButtonAll
                     onClick={() => handleDelete(user.id)}
-                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm flex items-center gap-1"
+                    className="bg-red-600  hover:bg-red-700 text-sm flex items-center gap-1"
                   >
                     <FaTrash /> Delete
-                  </button>
+                  </ButtonAll>
 
                   {/* link reset password */}
-                  <Link
-                    to={`/admin/reset-password/${user.id}`}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-sm flex items-center gap-1"
-                  >
-                    <FaRedo /> Reset
-                  </Link>
+                  <ButtonAll className="bg-yellow-600 hover:bg-yellow-700">
+                    <Link
+                      to={`/admin/reset-password/${user.id}`}
+                      className="flex items-center gap-2"
+                    >
+                      <FaRedo /> Reset
+                    </Link>
+                  </ButtonAll>
                 </td>
               </tr>
             ))}
