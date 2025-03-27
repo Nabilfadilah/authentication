@@ -1,4 +1,6 @@
 import {useState} from "react";
+import Typography from "../components/elements/text/Typography";
+import ButtonAll from "../components/elements/button/Index";
 
 // impor instance Axios yang telah dikonfigurasi untuk komunikasi dengan backend
 import axios from "../utils/axiosInstance";
@@ -41,9 +43,9 @@ const Login = () => {
     // membungkus tampilan login dengan flexbox untuk membuatnya berada di tengah layar
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-4">
+        <Typography className="text-2xl font-semibold text-center text-gray-700 mb-4">
           Login
-        </h2>
+        </Typography>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="email"
@@ -66,12 +68,12 @@ const Login = () => {
             sekarang.
           </div>
 
-          <button
+          <ButtonAll
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
+            className="w-full bg-blue-500 hover:bg-blue-600 transition duration-300"
           >
             Login
-          </button>
+          </ButtonAll>
         </form>
         {error && <p className="mt-3 text-center text-red-500">{error}</p>}
       </div>
