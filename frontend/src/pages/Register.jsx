@@ -1,6 +1,8 @@
 import {useState} from "react";
 import axios from "../utils/axiosInstance"; // impor instance axios yang sudah dikonfigurasi untuk komunikasi dengan backend
 import {useNavigate} from "react-router-dom";
+import Typography from "../components/elements/text/Typography";
+import ButtonAll from "../components/elements/button/Index";
 
 // komponen Register untuk menangani pendaftaran user
 const Register = () => {
@@ -31,9 +33,9 @@ const Register = () => {
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       {/* container utama untuk form register */}
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-4">
+        <Typography className="text-2xl font-semibold text-center mb-4">
           Register
-        </h2>
+        </Typography>
         {/* form untuk registrasi */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* input untuk Nama */}
@@ -58,12 +60,12 @@ const Register = () => {
             onChange={(e) => setForm({...form, password: e.target.value})}
           />
           {/* tombol Submit */}
-          <button
+          <ButtonAll
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
+            className="w-full bg-blue-500  hover:bg-blue-600"
           >
             Register
-          </button>
+          </ButtonAll>
         </form>
         {/* menampilkan pesan sukses/gagal jika ada */}
         {message && <p>{message}</p>}
