@@ -4,7 +4,7 @@ import Typography from "../components/elements/text/Typography";
 import ButtonAll from "../components/elements/button/Index";
 
 const Dashboard = () => {
-  const {user, logout} = useAuth();
+  const {user, logout} = useAuth(); // mengambil data user yang sedang login dan logout
   const navigate = useNavigate();
 
   const handleLogout = () => {
