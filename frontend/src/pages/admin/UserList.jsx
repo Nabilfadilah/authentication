@@ -80,12 +80,6 @@ const UserList = () => {
         <Typography className="text-xl font-bold">
           Daftar User Register
         </Typography>
-        <ButtonAll>
-          <Link to={"/dashboard"} className="flex items-center gap-2">
-            <BiArrowBack />
-            Back
-          </Link>
-        </ButtonAll>
       </div>
 
       {/* menampilkan daftar user dalam bentuk list */}
@@ -94,9 +88,9 @@ const UserList = () => {
           <thead className="bg-gray-200 text-gray-700">
             <tr>
               <th className="py-2 px-4 border text-start">No.</th>
-              <th className="py-2 px-4 border">Nama</th>
-              <th className="py-2 px-4 border">Email</th>
-              <th className="py-2 px-4 border">Role</th>
+              <th className="py-2 px-4 border text-start">Nama</th>
+              <th className="py-2 px-4 border text-start">Email</th>
+              <th className="py-2 px-4 border text-start">Role</th>
               <th className="py-2 px-4 border">Aksi</th>
             </tr>
           </thead>
@@ -106,7 +100,9 @@ const UserList = () => {
                 key={user.id}
                 className="text-center border-b hover:bg-gray-100"
               >
-                <td className="py-2 px-4 border text-start">{index + 1}.</td>
+                <td className="py-2 px-4 border w-11 text-center">
+                  {index + 1}.
+                </td>
 
                 {/* menampilkan nama, email, dan role */}
                 <td className="py-2 px-4 border font-semibold text-start">
