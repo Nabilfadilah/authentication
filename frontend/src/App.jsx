@@ -14,6 +14,7 @@ import FormCreateBiodata from "./components/biodata/FormCreateBiodat";
 import BiodataView from "./components/biodata/BiodataView";
 import AdminBiodataList from "./components/biodata/AdminBiodataList";
 import {useAuth} from "./context/AuthContext";
+import MainLayout from "./layouts/MainLayout";
 
 const BiodataRouter = () => {
   const {user} = useAuth();
@@ -33,7 +34,9 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <MainLayout>
+                <Dashboard />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -42,7 +45,9 @@ function App() {
           path="/profile"
           element={
             <ProtectedRoute>
-              <Profile />
+              <MainLayout>
+                <Profile />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -50,7 +55,9 @@ function App() {
           path="/users"
           element={
             <ProtectedRoute>
-              <UserList />
+              <MainLayout>
+                <UserList />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -59,7 +66,9 @@ function App() {
           path="/users/:id"
           element={
             <ProtectedRoute>
-              <EditUser />
+              <MainLayout>
+                <EditUser />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -68,7 +77,9 @@ function App() {
           path="/admin/reset-password/:id"
           element={
             <ProtectedRoute>
-              <ResetPasswordForm />
+              <MainLayout>
+                <ResetPasswordForm />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -78,7 +89,9 @@ function App() {
           path="/biodata"
           element={
             <ProtectedRoute>
-              <BiodataRouter />
+              <MainLayout>
+                <BiodataRouter />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -86,7 +99,9 @@ function App() {
           path="/biodata/create"
           element={
             <ProtectedRoute>
-              <FormCreateBiodata />
+              <MainLayout>
+                <FormCreateBiodata />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -94,7 +109,9 @@ function App() {
           path="/biodata/edit/:id"
           element={
             <ProtectedRoute>
-              <FormEditBiodata />
+              <MainLayout>
+                <FormEditBiodata />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
