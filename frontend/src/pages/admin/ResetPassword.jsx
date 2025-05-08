@@ -7,6 +7,7 @@ import Typography from "../../components/elements/text/Typography";
 import ButtonAll from "../../components/elements/button/Index";
 import InputForm from "../../components/elements/input/Index";
 import {BiArrowBack} from "react-icons/bi";
+import {FiEye, FiEyeOff} from "react-icons/fi";
 
 const ResetPasswordForm = () => {
   const {id} = useParams(); // ambil id user dari parameter URL
@@ -16,6 +17,9 @@ const ResetPasswordForm = () => {
   const [newPassword, setNewPassword] = useState(""); // state untuk password baru
   const [confirmPassword, setConfirmPassword] = useState(""); // state untuk konfirmasi password baru
   const [message, setMessage] = useState(""); // state untuk pesan error atau sukses
+
+  const [showNewPassword, setShowNewPassword] = useState(false); // state untuk melihat/menutup new password
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // state untuk melihat/menutup konfirm new password
 
   const handleReset = async (e) => {
     e.preventDefault();
@@ -70,24 +74,50 @@ const ResetPasswordForm = () => {
       </p>
 
       <form onSubmit={handleReset}>
-        <div className="mb-4">
-          <InputForm
-            label="Password Baru"
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+        {/* New Password */}
+        <div className="mb-4 relative">
+          <label className="block mb-1 font-medium">Password Baru</label>
+
+          {/* tipe input bisa berubah dari "password" ke "text" tergantung state showNewPassword */}
+          <input
+            type={showNewPassword ? "text" : "password"} // toggle tipe input
+            value={newPassword} // nilai input diambil dari state newPassword
+            onChange={(e) => setNewPassword(e.target.value)} // update state saat user mengetik
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring"
             required
           />
+
+          {/* Icon mata / mata tertutup untuk toggle visibility */}
+          {/* Posisi absolut agar icon berada di dalam input, sisi kanan */}
+          <div
+            className="absolute top-9 right-3 text-gray-600 cursor-pointer"
+            onClick={() => setShowNewPassword(!showNewPassword)} // toggle visibilitas
+          >
+            {/* tampilkan icon FiEyeOff jika password sedang terlihat, jika tidak FiEye */}
+            {showNewPassword ? <FiEyeOff /> : <FiEye />}
+          </div>
         </div>
 
-        <div className="mb-4">
-          <InputForm
-            label="Konfirmasi Password Baru"
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+        {/* Confirm Password */}
+        <div className="mb-4 relative">
+          <label className="block mb-1 font-medium">Konfirmasi Password</label>
+
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            value={confirmPassword} // nilai diambil dari state confirmPassword
+            onChange={(e) => setConfirmPassword(e.target.value)} // update state saat diketik
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring"
             required
           />
+
+          {/* icon mata toggle untuk konfirmasi password */}
+          <div
+            className="absolute top-9 right-3 text-gray-600 cursor-pointer"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)} // toggle state
+          >
+            {/* tampilkan icon sesuai state showConfirmPassword */}
+            {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+          </div>
         </div>
 
         <div className="text-center">
