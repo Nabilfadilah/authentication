@@ -36,37 +36,35 @@ const AdminBiodataList = () => {
   }, [user]); // useEffect akan dijalankan ulang setiap kali 'user' berubah
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div class="p-6 bg-white shadow-md rounded-lg">
       <div className="flex items-center justify-between mb-4">
         <Typography className="text-xl font-bold">
           List Biodata Semua User
         </Typography>
-        <ButtonAll>
-          <Link to={"/dashboard"} className="flex items-center gap-2">
-            <BiArrowBack />
-            Back
-          </Link>
-        </ButtonAll>
       </div>
 
       {/* Tabel Responsif */}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200">
-          <thead>
-            <tr className="bg-gray-100 text-gray-700 uppercase text-sm">
-              <th className="py-2 px-4 border">Nama</th>
-              <th className="py-2 px-4 border">Email</th>
-              <th className="py-2 px-4 border">No Telepon</th>
-              <th className="py-2 px-4 border">Alamat</th>
+          <thead className="bg-gray-200 text-gray-700">
+            <tr>
+              <th className="py-2 px-4 border text-start">No.</th>
+              <th className="py-2 px-4 border text-start">Nama</th>
+              <th className="py-2 px-4 border text-start">Email</th>
+              <th className="py-2 px-4 border text-start">No Telepon</th>
+              <th className="py-2 px-4 border text-start">Alamat</th>
               <th className="py-2 px-4 border">Poto</th>
             </tr>
           </thead>
           <tbody>
             {/* Mapping data biodataList ke dalam tabel */}
-            {biodataList.map((b) => (
+            {biodataList.map((b, index) => (
               <tr key={b.id} className="text-start border-b">
-                <td className="py-2 px-4 border">{b.name}</td>
-                <td className="py-2 px-4 border">{b.email}</td>
+                <td className="py-2 px-4 border w-11 text-center">
+                  {index + 1}.
+                </td>
+                <td className="py-2 px-4 border font-semibold">{b.name}</td>
+                <td className="py-2 px-4 border text-gray-600">{b.email}</td>
                 <td className="py-2 px-4 border">{b.phone}</td>
                 <td className="py-2 px-4 border">{b.address}</td>
                 <td className="py-2 px-4 border">
