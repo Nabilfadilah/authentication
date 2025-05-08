@@ -9,6 +9,7 @@ import {Link, useNavigate} from "react-router-dom";
 
 // impor useAuth untuk mengakses fungsi login dari AuthContext
 import {useAuth} from "../context/AuthContext";
+import InputForm from "../components/elements/input/Index";
 
 const Login = () => {
   // mengambil fungsi login dari context autentikasi
@@ -47,13 +48,18 @@ const Login = () => {
           Login
         </Typography>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input
+          {/* email */}
+          <InputForm
+            label="Email"
             type="email"
             placeholder="Email"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={(e) => setForm({...form, email: e.target.value})}
           />
-          <input
+
+          {/* password */}
+          <InputForm
+            label="Password"
             type="password"
             placeholder="Password"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
